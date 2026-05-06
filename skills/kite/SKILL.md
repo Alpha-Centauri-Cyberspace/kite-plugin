@@ -125,8 +125,40 @@ For checked-in routing config that lives alongside the project — preferred ove
 - `--compact`: one-liner per event, summary only.
 - `--json`: full CloudEvent JSON — use this when piping into another program.
 - `--exec CMD`: run a command per event with the event JSON on stdin.
-- `--importance LEVEL`: filter by importance (`low`, `normal`, `high`, `critical`).
 - `--client-id ID`: persist a delivery cursor so reconnects resume where you left off.
+
+## Filtering
+
+Filters apply at the delivery edge — Kite skips non-matching events instead of forwarding them. Available across `stream`, `proxy`, `listen`, and `retry`:
+
+| Flag | Where | Effect |
+|---|---|---|
+| `--source <name>` | `stream`, `proxy`, `listen`, `retry` | Only events whose source matches (e.g. `github`, `stripe`). Source is derived from event type — `com.github.push` → `github`. |
+| `--event-type <type>` | `stream` | Only events of a specific CloudEvent type (e.g. `com.github.pull_request`). |
+| `--importance <level>` | `stream` | Minimum importance: `low`, `normal`, `high`, `critical`. Quiet noisy sources without dropping incidents. |
+| `--route SOURCE=URL` | `proxy` | Per-source routing. Acts as a filter when used without `--target` — unrouted sources go to DLQ. |
+
+Examples:
+
+```bash
+# GitHub pull-request events only, full JSON for piping
+kite stream --source github --event-type com.github.pull_request --json
+
+# Stream only critical events across all sources
+kite stream --importance critical
+
+# Proxy only stripe webhooks; everything else gets dropped (no fallback target)
+kite proxy --route stripe=http://localhost:3002/stripe
+
+# Replay only failed github events from the DLQ
+kite retry --source github --target http://localhost:3000/webhooks
+```
+
+Notes:
+
+- Filters compose — `--source` and `--event-type` together AND-match.
+- For finer-grained payload filtering (e.g. only PRs into `main`), pipe `--json` through `jq` or use `--exec` and filter inside your handler.
+- `--client-id` interacts with filtering: each `client-id` keeps its own delivery cursor, so a filtered consumer with one client-id won't skip ahead for an unfiltered consumer with a different one.
 
 ## Authentication model
 
