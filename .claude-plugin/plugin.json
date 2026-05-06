@@ -1,0 +1,19 @@
+{
+  "name": "kite",
+  "description": "Context and integration guidance for Kite — the universal webhook adapter and tunneling platform.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Alpha Centauri Cyberspace",
+    "url": "https://getkite.sh"
+  },
+  "homepage": "https://getkite.sh",
+  "repository": "https://github.com/Alpha-Centauri-Cyberspace/kite-plugin",
+  "license": "MIT",
+  "keywords": [
+    "kite",
+    "webhooks",
+    "tunneling",
+    "cloudevents",
+    "developer-tools"
+  ]
+}

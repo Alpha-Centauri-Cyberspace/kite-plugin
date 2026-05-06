@@ -1,0 +1,14 @@
+{
+  "name": "kite-plugins",
+  "owner": {
+    "name": "Alpha Centauri Cyberspace",
+    "url": "https://getkite.sh"
+  },
+  "plugins": [
+    {
+      "name": "kite",
+      "source": "./",
+      "description": "Context and integration guidance for Kite — the universal webhook adapter and tunneling platform."
+    }
+  ]
+}
