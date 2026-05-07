@@ -1,7 +1,7 @@
 {
   "name": "kite",
   "description": "Context and integration guidance for Kite — the universal webhook adapter and tunneling platform.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": {
     "name": "Alpha Centauri Cyberspace",
     "url": "https://getkite.sh"

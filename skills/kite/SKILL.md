@@ -174,10 +174,13 @@ A Kite "endpoint" is the addressable URL/credential for a given source.
 ```bash
 kite endpoints list
 kite endpoints create --source github --repo owner/repo
+kite endpoints create --source linear --signing-secret lin_wh_xxx
 kite endpoints deactivate --id <ID>
 ```
 
 For GitHub, `endpoints create --repo OWNER/NAME` will auto-register the webhook with GitHub (uses `--github-token`, `GITHUB_TOKEN`, or `gh` auth, in that order). `--force` replaces an existing webhook on the repo.
+
+For sources that issue their own signing secret (Linear, Stripe, custom providers), pass it with `--signing-secret <SECRET>`. The secret is encrypted at rest server-side and used to verify HMAC signatures on inbound webhooks. Use `--signing-secret -` to read from stdin (avoids shell history). Re-running `endpoints create` with a new value rotates the stored secret. Without `--signing-secret`, Kite stores no secret for non-GitHub sources and will accept unsigned posts to that endpoint.
 
 ## Wire format
 
