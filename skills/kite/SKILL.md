@@ -165,7 +165,7 @@ Notes:
 - `kite login` runs the device-auth flow against `https://getkite.sh` and stores credentials locally.
 - Long-lived integrations should use API keys: `kite keys create --name CI --scopes ... --expires-at ...`.
 - Revoke with `kite keys revoke --id <ID>`.
-- The default server is `https://getkite.sh`; override with `--server` on `login` and `update` for self-hosted or staging environments.
+- The default server is `https://getkite.sh`; override with `--server` on `login` and `update` for staging or internal test environments.
 
 ## Endpoints
 
