@@ -9,6 +9,8 @@ Kite is a universal webhook adapter. It ingests webhook events from any source (
 
 Use this skill when the user is integrating with Kite, debugging webhook delivery, wiring a webhook source into a local server, or replaying past events.
 
+This guidance matches Kite CLI `v0.2.2`.
+
 ## When to use
 
 - User wants to receive webhooks locally without standing up a public ingress.
@@ -19,18 +21,20 @@ Use this skill when the user is integrating with Kite, debugging webhook deliver
 ## Install
 
 ```bash
-# Homebrew (recommended on macOS / Linux)
+# Installer (macOS Apple Silicon or Linux x86_64, glibc 2.34+)
+curl -fsSL https://getkite.sh/install | sh
+
+# Homebrew for the same supported targets
 brew tap alpha-centauri-cyberspace/kite
 brew install kite
-
-# Cargo
-cargo install kite-cli
-
-# Docker
-docker pull ghcr.io/alpha-centauri-cyberspace/kite-cli:latest
 ```
 
 Verify with `kite --version`.
+
+Kite does not publish this CLI to crates.io or as a public container image. The
+crates.io package named `kite-cli` is unrelated. For manual installation, use a
+checksum-verified asset from the official
+[GitHub release](https://github.com/Alpha-Centauri-Cyberspace/kite-cli/releases/latest).
 
 ## First-time setup
 
@@ -50,7 +54,7 @@ The CLI is a small set of verbs. Each accepts `--help` for full options.
 | `kite listen` | Receive events via Unix socket (`--socket`) for IPC integrations. |
 | `kite run --manifest kite.json` | Run multiple routes / handlers from a declarative manifest. |
 | `kite retry --target URL` | Replay events from the dead-letter queue to a target. |
-| `kite endpoints` | `list`, `create`, `deactivate` webhook endpoints. |
+| `kite endpoints` | `list`, `create`, `rotate-secret`, and `deactivate` webhook endpoints. |
 | `kite github install --repo OWNER/REPO` | Install a GitHub webhook in-place using local `gh` auth. |
 | `kite keys` | `list`, `create`, `revoke` API keys (scopes + expiry supported). |
 | `kite logs --limit N` | Inspect persisted event logs. |
@@ -129,7 +133,9 @@ For checked-in routing config that lives alongside the project — preferred ove
 
 ## Filtering
 
-Filters apply at the delivery edge — Kite skips non-matching events instead of forwarding them. Available across `stream`, `proxy`, `listen`, and `retry`:
+Source filters narrow WebSocket subscriptions for `stream`, `proxy`, and
+`listen`; retry filters apply to the local dead-letter queue. Some output and
+importance checks also run locally before delivery:
 
 | Flag | Where | Effect |
 |---|---|---|
@@ -195,6 +201,10 @@ kite update              # update in place
 kite update --check      # dry-run
 kite update --force      # force reinstall
 ```
+
+Self-update is available only on macOS Apple Silicon and Linux x86_64 with
+glibc 2.34 or newer. For release-integrity details, inspect the selected
+version's manifest and SHA-256 sidecar before updating.
 
 ## Troubleshooting checklist
 
