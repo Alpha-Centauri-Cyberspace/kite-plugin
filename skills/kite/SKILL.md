@@ -21,7 +21,7 @@ This guidance matches Kite CLI `v0.2.2`.
 ## Install
 
 ```bash
-# Checksum-verifying installer (macOS Apple Silicon or Linux x86_64)
+# Installer (macOS Apple Silicon or Linux x86_64, glibc 2.34+)
 curl -fsSL https://getkite.sh/install | sh
 
 # Homebrew for the same supported targets
@@ -202,9 +202,9 @@ kite update --check      # dry-run
 kite update --force      # force reinstall
 ```
 
-Self-update is available only on macOS Apple Silicon and Linux x86_64. It
-requires an immutable release-manifest entry and a valid SHA-256 checksum; it
-fails closed when either is absent or mismatched.
+Self-update is available only on macOS Apple Silicon and Linux x86_64 with
+glibc 2.34 or newer. For release-integrity details, inspect the selected
+version's manifest and SHA-256 sidecar before updating.
 
 ## Troubleshooting checklist
 
