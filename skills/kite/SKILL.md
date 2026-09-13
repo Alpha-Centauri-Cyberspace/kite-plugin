@@ -20,14 +20,15 @@ Use this skill when the user is integrating with Kite, debugging webhook deliver
 
 ```bash
 # Homebrew (recommended on macOS / Linux)
-brew tap alpha-centauri-cyberspace/kite
-brew install kite
+brew tap alpha-centauri-cyberspace/kite && brew install kite
 
-# Cargo
-cargo install kite-cli
+# Prebuilt binary from GitHub Releases
+# Download the archive and matching .sha256 from https://github.com/Alpha-Centauri-Cyberspace/kite-cli/releases/latest.
 
-# Docker
-docker pull ghcr.io/alpha-centauri-cyberspace/kite-cli:latest
+# Build from source
+git clone https://github.com/Alpha-Centauri-Cyberspace/kite-cli
+cd kite-cli
+cargo build --release  # binary at target/release/kite
 ```
 
 Verify with `kite --version`.
